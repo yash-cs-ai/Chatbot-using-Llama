@@ -5,7 +5,7 @@ This readme file walks you through the basic architecture of this model.
 
 * For how to get started refer [Set up file](./docs/setup.md)
 * For the tools used refer [tools and libraries](./docs/toolsandlib.md)
-* For details of the model used refer [Model info](modelinfo.md)
+* For details of the model used refer [model info](./model/modelinfo.md)
 
 The primary aim of this project is to create a chatbot that ingests raw PDF as input and transforms then into a structured queryable knowledge base. By converting unstructured text into high-dimensional vector embeddings, this system enables context-aware search and retrieval for downstream LLM (Large Language Model) applications, such as RAG (Retrieval-Augmented Generation) chatbots.
 
