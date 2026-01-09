@@ -1,7 +1,5 @@
 # List of commands used for environment and basic setup
 
-Before starting you, can use instructions from [tools and libaries](toolsandlib.md) on what applications or softwares were used.
-
 1. Creating venv via Conda
 
     ```bash
