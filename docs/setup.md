@@ -30,4 +30,4 @@
 5. Data setup
     Add your data source in to the [Data folder](/data/) folder this case, I've used a medical encyclopedia.
 
-6. Write the code from [Code source](../maincode.ipynb) and run it.
+6. Write the code from [Code source](../research/maincode.ipynb) and run it.
