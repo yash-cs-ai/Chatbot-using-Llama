@@ -37,7 +37,11 @@ llm=CTransformers(model="model/llama-2-7b-chat.ggmlv3.q4_0.bin",
                   model_type="llama",
                   config={
                       'max_new_tokens':512,
-                         'temperature':0.8})
+                         'temperature':0.8,
+                         'repetition_penalty': 1.1,  
+                           'context_length': 2048
+                        }
+                )
 
 # Loads the local quantized Llama 2 model and configures generation parameters like token limit and creativity (temperature).
 retriever=docsearch.as_retriever(search_kwargs={'k':2})
