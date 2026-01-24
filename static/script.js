@@ -30,19 +30,26 @@ form.addEventListener("submit", async (e) => {
 });
 
 function addMessage(sender, text) {
+    // 1. Create Wrapper
     const wrapper = document.createElement("div");
-    wrapper.className = sender === "user"
-        ? "flex justify-end"
-        : "flex justify-start";
+    // Adds class "message-wrapper" AND either "user" or "bot"
+    wrapper.classList.add("message-wrapper", sender);
 
-    const messageDiv = document.createElement("div");
-    messageDiv.className = sender === "user"
-        ? "user-message"
-        : "bot-message";
+    // 2. Create Label
+    const label = document.createElement("span");
+    label.classList.add("label");
+    label.textContent = sender === "user" ? "You" : "Chatbot";
 
-    messageDiv.textContent = text;
-    wrapper.appendChild(messageDiv);
+    // 3. Create Bubble
+    const bubble = document.createElement("div");
+    bubble.classList.add("message-bubble");
+    bubble.textContent = text;
+
+    // 4. Assemble
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
     chatMessages.appendChild(wrapper);
 
+    // 5. Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
