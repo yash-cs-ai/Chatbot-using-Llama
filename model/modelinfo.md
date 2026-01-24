@@ -18,4 +18,4 @@ Breakdown of the filename:
      "4-bit Quantization." This compresses the model's memory footprint significantly (making it ~4GB instead of ~14GB) while maintaining nearly all of its reasoning capabilities.
 
 Downloaded from :
-Model installed from [Hugging Face - TheBloke/Llama-2-7B-Chat-GGUF](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/tree/main)
+Model installed from [Hugging Face - TheBloke/Llama-2-7B-Chat-GGML](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/tree/main)
