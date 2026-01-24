@@ -1,53 +1,107 @@
-# Semantic Document Ingestion & Knowledge Base
+# End to End Chatbot via Llama2
 
-Before getting started...
-This readme file walks you through the basic architecture of this model.
+The main purpose of tis repository/project is to create a RAG (Retrieval-Augemented Generation) model.This application allows users to upload documents (PDFs) and chat with them using a local Llama-2 Large Language Model (LLM).
 
-* For how to get started refer [Set up file](./docs/setup.md)
-* For the tools used refer [tools and libraries](./docs/toolsandlib.md)
-* For details of the model used refer [model info](./model/modelinfo.md)
+## 🛠️ Technologies Used
 
-The primary aim of this project is to create a chatbot that ingests raw PDF as input and transforms then into a structured queryable knowledge base. By converting unstructured text into high-dimensional vector embeddings, this system enables context-aware search and retrieval for downstream LLM (Large Language Model) applications, such as RAG (Retrieval-Augmented Generation) chatbots.
+### Tech Stack
 
-## Architecure and Worklfow
+* **Language:** Python 3.8
+* **LLM Framework:** LangChain
+* **Model:** Llama-2-7b-chat (GGML)
+* **Web Framework:** Flask
+* **Vector Database:** Pinecone
+* **Frontend:** HTML / CSS / JavaScript
 
-![RAG](RAGmodel.jpg)
+### Development Environment
 
-The pipeline follows a standard "unstructured-to-structured" data flow. It is designed to handle large-scale document collections, ensuring that long-form text is preserved with semantic integrity.
+* **Git Bash:** A Unix-like command-line interface for Windows, used as the primary terminal for version control and script execution.
+* **Conda:** Handles environment management, creating isolated spaces to prevent dependency conflicts between projects.
+* **Visual Studio Code (VS Code):** The primary IDE, optimized with extensions for Python debugging and Jupyter notebook integration.
 
-## Detailed Architecture Breakdown
+## 📂 Project Structure
 
-1. Document Ingestion Layer
-    Input: Accepts a directory of PDF files (e.g., technical manuals, research papers, legal contracts).
+```text
+├── data/                   # Raw data for ingestion
+│   └── Medical_book.pdf    # Source PDF document
+├── model/                  # Stores the quantized Llama-2 model
+│   ├── llama-2-7b-chat.ggmlv3.q4_0.bin
+│   └── modelinfo.md
+├── src/                    # Source code for core logic
+│   ├── __init__.py         # Package marker
+│   ├── helper.py           # Functions for loading PDFs and chunking text
+│   └── prompt.py           # System prompts and LLM instructions
+├── static/                 # Frontend assets
+│   ├── script.js           # Client-side behavior
+│   └── style.css           # UI Styling
+├── templates/              # HTML templates
+│   └── chat.html           # Chat interface
+├── app.py                  # Main application entry point (Flask)
+├── store_index.py          # Script to process data and push to Vector DB
+├── setup.py                # Configuration to install 'src' as a package
+├── template.py             # Utility for project scaffolding
+├── requirements.txt        # List of dependencies
+├── LICENSE                 # License information
+└── README.md               # Project documentation
+```
 
-    Action: Iterates through the source directory to identify valid file formats for processing.
+## Installation & Setup Guide
 
-2. Content Extraction
-    Action: Parses the binary PDF format to extract raw text.
+1. Clone the Repository Start by cloning the project to your local machine.
 
-    Cleaning: Removes artifacts such as headers, footers, and page numbers to ensure only core content is processed.
+    ```Bash
+    git clone https://github.com/yash-cs-ai/Chatbot-using-Llama.git
+    cd your-repo-name
+    ```
 
-3. Semantic Chunking
-    Concept: Large documents cannot be processed by embedding models in a single pass due to token limits.
+2. Create a Virtual Environment.
+ It is recommended to use Conda or Python's built-in venv to isolate dependencies.
 
-    Action: The text is split into smaller Text Chunks.
+    ```Bash
+    conda create -n venv_name python=3.8 -y
+    ```
 
-    Strategy: Uses overlapping windows (e.g., 512 tokens with 50-token overlap) or recursive character splitting to ensure context is not lost at the boundaries of chunks.
+    **To activate or deactivate venv**
 
-4. Embedding Generation
+    ```bash
+    conda activate venv_name
+    ```
 
-    Action: Each text chunk is passed to an Embedding Model (e.g., OpenAI text-embedding-3, Hugging Face all-MiniLM-L6-v2).
+    ```bash
+    conda deactivate
+    ```
 
-    Output: The model outputs a Vector Embedding—a dense list of floating-point numbers representing the semantic meaning of that specific chunk.
+3. Install Dependencies.
 
-5. Index Construction
+     Install the required Python libraries and register the local src package.
 
-    Action: The system aggregates the generated vectors and prepares them for upsertion.
+    ```Bash
+    pip install -r requirements.txt
+    pip install -e .
+    ```
 
-    Metadata: Essential metadata (e.g., Source Filename, Page Number, Chunk ID) is attached to each vector to allow for precise citations during retrieval.
+4. You must download the model manually.
 
-6. Vector Persistence (Knowledge Base)
+    Downloaded from :
+    Model installed from [Hugging Face - TheBloke/Llama-2-7B-Chat-GGML](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/tree/main).
+     For more info on the model refer [model info](./model/modelinfo.md)
 
-    Destination: Pinecone Vector Database.
+    *Placement:* Move the downloaded file into the ```model/``` directory in the project root.
 
-    Outcome: The vectors are indexed for fast Approximate Nearest Neighbor (ANN) search, serving as the long-term memory for your application
+5. Configure Environment Variables Create a .env file in the root directory to store your API keys.
+
+    ```Ini, TOML
+    PINECONE_API_KEY=your_pinecone_api_key
+    ```
+
+6. Ingest Data (Create Vector Store) Run the ingestion script to process your PDFs and store embeddings in the database.
+
+    ```Bash
+    python store_index.py
+    ```
+
+7. Run the Application Start the Flask server to launch the chatbot interface.
+
+    ```Bash
+    python app.py
+    ```
